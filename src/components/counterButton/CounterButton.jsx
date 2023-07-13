@@ -31,6 +31,7 @@ const CounterButton = props => {
     <div>
       <h2>{`Parent: ${parentCount}`}</h2>
       <Button onClick={increment}>{`Count: ${count}`}</Button>
+      <input type="text" name="" id="" />
     </div>
   );
 };

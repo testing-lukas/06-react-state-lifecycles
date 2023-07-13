@@ -1,0 +1,6 @@
+1. Create functionality to filter out completed/in progress todo items;
+2. Pick appropriate element switch between STATES: in progress/completed;
+3. When state changes, todo items should be show corresponding to curring 
+filtering state, e.g: 
+    if state is completed - items that have property "complete" to true;
+    ff state is in progress - the oppsite;

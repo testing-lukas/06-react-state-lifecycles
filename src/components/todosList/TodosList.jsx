@@ -1,51 +1,40 @@
-import { Button, Spinner } from "react-bootstrap";
+import { Button, ButtonGroup, Stack } from "react-bootstrap";
 import { useEffect, useState } from "react";
 
-import axios from "axios";
+import AddTodoModal from "./AddTodoModal";
+import TodoItem from "./TodoItem";
+import { getTodos } from "../../api/todos/todos";
 
 const TodosList = () => {
-  const [count, setCount] = useState(0);
   const [todos, setTodos] = useState([]);
-  const [loading, setLoading] = useState(false);
 
-  const getTodos = async () => {
-    setLoading(true);
+  const handleFetchTodos = async () => {
     try {
-      const response = await axios.get(
-        "https://jsonplaceholder.typicode.com/posts"
-      );
-
-      console.log("fetched");
-
+      const response = await getTodos();
       setTodos(response.data);
-    } catch (e) {
-      console.error(e);
-    } finally {
-      setLoading(false);
+    } catch (err) {
+      console.log(err);
     }
   };
 
   // Fetching only first time when component mounts
   useEffect(() => {
-    getTodos();
+    handleFetchTodos();
   }, []);
 
   return (
     <div>
-      <Button
-        disabled={loading}
-        onClick={() => setCount(count + 1)}
-      >{`Count: ${count}`}</Button>
+      <div className="mb-4">
+        <AddTodoModal setTodos={setTodos} />
+      </div>
+
       <h4>Todos:</h4>
-      {loading ? (
-        <Spinner />
-      ) : (
-        <ul>
-          {todos.map(todo => (
-            <li key={todo.id}>{todo.title}</li>
-          ))}
-        </ul>
-      )}
+
+      <Stack gap={3}>
+        {todos.map(todo => (
+          <TodoItem key={todo.id} todo={todo} setTodos={setTodos} />
+        ))}
+      </Stack>
     </div>
   );
 };
